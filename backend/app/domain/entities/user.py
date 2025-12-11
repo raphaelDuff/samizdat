@@ -8,9 +8,12 @@ from datetime import date, datetime, timezone
 class User(Entity):
     name: str
     email: str
+    password_hash: str
+    role: str
     birth_date: date
     is_active: bool = False
-    create_at: datetime = datetime.now(timezone.utc)
+    created_at: datetime = datetime.now(timezone.utc)
+    updated_at: datetime | None = field(default=None)
     saved_list_ids: list[UUID] = field(default_factory=list)
 
     @property
