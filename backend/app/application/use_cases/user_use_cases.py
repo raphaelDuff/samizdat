@@ -1,7 +1,8 @@
 from dataclasses import dataclass
-from app.application.repositories.user_repository import UserRepository
+
+from app.application.common.result import Error, Result
 from app.application.dtos.user_dtos import CreateUserRequestModel, UserResponseModel
-from app.application.common.result import Result, Error
+from app.application.repositories.user_repository import UserRepository
 from app.domain.entities.user import User
 
 

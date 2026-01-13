@@ -1,6 +1,8 @@
-from app.domain.entities.user import User
 from abc import ABC, abstractmethod
 from uuid import UUID
+
+from app.domain.entities.user import User
+from typing import Sequence
 
 
 class UserRepository(ABC):
@@ -34,7 +36,7 @@ class UserRepository(ABC):
         raise NotImplementedError
 
     @abstractmethod
-    async def get_all(self) -> list[User]:
+    async def get_all(self) -> Sequence[User]:
         """
         Retrieve a list of all User.
 

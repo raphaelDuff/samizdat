@@ -1,7 +1,8 @@
-from pydantic import BaseModel, Field, EmailStr
-from datetime import datetime, date
+from datetime import date, datetime
 from typing import Self
+
 from app.domain.entities.user import User
+from pydantic import BaseModel, EmailStr, Field
 
 
 class CreateUserRequestModel(BaseModel):

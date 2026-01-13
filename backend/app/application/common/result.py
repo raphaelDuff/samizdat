@@ -1,6 +1,6 @@
 from dataclasses import dataclass
 from enum import StrEnum, auto
-from typing import Any, Generic, Optional, TypeVar, Self
+from typing import Any, Generic, Optional, Self, TypeVar
 
 T = TypeVar("T")
 

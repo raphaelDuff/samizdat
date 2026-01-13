@@ -1,7 +1,8 @@
-from domain.entities.entity import Entity
-from uuid import UUID
 from dataclasses import dataclass, field
 from datetime import date, datetime, timezone
+from uuid import UUID
+
+from domain.entities.entity import Entity
 
 
 @dataclass
