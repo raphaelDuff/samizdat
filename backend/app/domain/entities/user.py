@@ -16,7 +16,6 @@ class UserDomain(Entity):
     created_at: datetime = datetime.now(timezone.utc)
     id: UUID = field(default_factory=uuid4)
     updated_at: datetime | None = field(default=None)
-    saved_list_ids: list[UUID] = field(default_factory=list)
 
     @property
     def age(self) -> int:
@@ -29,8 +28,3 @@ class UserDomain(Entity):
                 < (self.birth_date.month, self.birth_date.day)
             )
         )
-
-    # TODO: Mudar para save_id_to_list passando como parametros booklist_id e id da lista
-    def save_list(self, booklist_id: UUID):
-        if booklist_id not in self.saved_list_ids:
-            self.saved_list_ids.append(booklist_id)

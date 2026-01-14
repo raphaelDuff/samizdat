@@ -2,11 +2,13 @@ from uuid import UUID
 
 from app.application.repositories.user_repository import UserRepository
 from app.domain.entities.user import UserDomain
-from app.domain.exceptions import UserEmailNotFoundError, UserIdNotFoundError
+from app.domain.exceptions import UserIdNotFoundError
 from sqlmodel.ext.asyncio.session import AsyncSession
 from sqlmodel import select
 from typing import Sequence
 from app.infra.guards import guard_not_none
+from app.infra.db.models.user_model import UserSQLModel
+from app.infra.db.mappers.user_mapper import UserMapper
 
 
 class PostgresRepository(UserRepository):
@@ -32,10 +34,10 @@ class PostgresRepository(UserRepository):
         Raises:
             UserNotFoundError: If user doesn't exist
         """
-        user = await self._session.get(UserDomain, user_id)
+        user = await self._session.get(UserSQLModel, user_id)
         if user is None:
             raise UserIdNotFoundError(user_id)
-        return user
+        return UserMapper.to_domain(user)
 
     async def get_by_email(self, email: str) -> UserDomain | None:
         """
@@ -50,12 +52,10 @@ class PostgresRepository(UserRepository):
         Raises:
             UserEmailNotFoundError: If user with the email doesn't exist
         """
-        statement = select(UserDomain).where(UserDomain.email == email)
+        statement = select(UserSQLModel).where(UserSQLModel.email == email)
         result = await self._session.exec(statement)
-        user = result.first()
-        if user is None:
-            raise UserEmailNotFoundError(email)
-        return user
+        user = result.one_or_none()
+        return UserMapper.to_domain(user) if user else None
 
     async def get_all(self) -> Sequence[UserDomain]:
         """
@@ -64,10 +64,10 @@ class PostgresRepository(UserRepository):
         Returns:
             Sequence of all User entities
         """
-        statement = select(UserDomain)
+        statement = select(UserSQLModel)
         result = await self._session.exec(statement)
         users = result.all()
-        return users
+        return [UserMapper.to_domain(user) for user in users]
 
     async def save(self, user: UserDomain) -> None:
         """
@@ -76,11 +76,8 @@ class PostgresRepository(UserRepository):
         Args:
             user: The User entity to save
         """
-        # TODO - create db model and a mapper
-        # model = to_model(user)
-        self._session.add(user)
-        # TODO - modify to use Unit of work
-        await self._session.commit()
+        user_db = UserMapper.to_model(user)
+        self._session.add(user_db)
 
     async def update(self, user: UserDomain) -> None:
         """
@@ -92,15 +89,11 @@ class PostgresRepository(UserRepository):
         Raises:
             Exception: If user doesn't exist in the database
         """
-        user_db = await self._session.get(UserDomain, user.id)
+        user_db = await self._session.get(UserSQLModel, user.id)
         user_db = guard_not_none(
             user_db, "PostgreSQL Repository Error: Update method - user was not found"
         )
-        user_db.name = user.name
-        user_db.birth_date = user.birth_date
-        user_db.is_active = user.is_active
-        user_db.role = user.role
-        user_db.saved_list_ids = user.saved_list_ids
+        UserMapper.to_model(user, user_db)
 
     async def delete(self, user_id: UUID) -> None:
         """
@@ -112,9 +105,7 @@ class PostgresRepository(UserRepository):
         Raises:
             UserIdNotFoundError: If user doesn't exist
         """
-        user = await self._session.get(UserDomain, user_id)
+        user = await self._session.get(UserSQLModel, user_id)
         if user is None:
             raise UserIdNotFoundError(user_id)
         await self._session.delete(user)
-
-    # TODO trocar todos os UserDomain por UserSQLModel nos get e statements
