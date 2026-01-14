@@ -1,7 +1,7 @@
 from datetime import date, datetime
 from typing import Self
 
-from app.domain.entities.user import User
+from app.domain.entities.user import UserDomain
 from pydantic import BaseModel, EmailStr, Field
 
 
@@ -24,7 +24,7 @@ class UserResponseModel(BaseModel):
     updated_at: datetime | None = Field(default=None)
 
     @classmethod
-    def from_entity(cls, user: User) -> Self:
+    def from_entity(cls, user: UserDomain) -> Self:
         """Create response from a User entity."""
         return cls(
             id=str(user.id),

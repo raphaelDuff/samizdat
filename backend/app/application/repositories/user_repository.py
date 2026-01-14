@@ -1,13 +1,13 @@
 from abc import ABC, abstractmethod
 from uuid import UUID
 
-from app.domain.entities.user import User
+from app.domain.entities.user import UserDomain
 from typing import Sequence
 
 
 class UserRepository(ABC):
     @abstractmethod
-    async def get_by_id(self, user_id: UUID) -> User | None:
+    async def get_by_id(self, user_id: UUID) -> UserDomain | None:
         """
         Retrieve a user by its ID.
 
@@ -23,7 +23,7 @@ class UserRepository(ABC):
         pass
 
     @abstractmethod
-    async def get_by_email(self, email: str) -> User | None:
+    async def get_by_email(self, email: str) -> UserDomain | None:
         """
         Retrieve a user by their email address.
 
@@ -36,7 +36,7 @@ class UserRepository(ABC):
         raise NotImplementedError
 
     @abstractmethod
-    async def get_all(self) -> Sequence[User]:
+    async def get_all(self) -> Sequence[UserDomain]:
         """
         Retrieve a list of all User.
 
@@ -49,7 +49,7 @@ class UserRepository(ABC):
         pass
 
     @abstractmethod
-    async def save(self, user: User) -> None:
+    async def save(self, user: UserDomain) -> None:
         """
         Save a user to the repository.
 

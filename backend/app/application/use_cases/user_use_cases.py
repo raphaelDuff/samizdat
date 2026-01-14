@@ -3,7 +3,8 @@ from dataclasses import dataclass
 from app.application.common.result import Error, Result
 from app.application.dtos.user_dtos import CreateUserRequestModel, UserResponseModel
 from app.application.repositories.user_repository import UserRepository
-from app.domain.entities.user import User
+from app.domain.entities.user import UserDomain
+from uuid import uuid4
 
 
 @dataclass(frozen=True)
@@ -25,7 +26,8 @@ class CreatreUserCase:
                 )
             )
 
-        new_user = User(
+        new_user = UserDomain(
+            id=uuid4(),
             name=request_model.name,
             email=request_model.email,
             password_hash=request_model.password_hash,
