@@ -11,7 +11,7 @@ from app.infra.db.models.user_model import UserSQLModel
 from app.infra.db.mappers.user_mapper import UserMapper
 
 
-class PostgresRepository(UserRepository):
+class UserPostgreRepository(UserRepository):
     def __init__(self, session: AsyncSession):
         """
         Initialize repository with async database session.
@@ -21,7 +21,7 @@ class PostgresRepository(UserRepository):
         """
         self._session = session
 
-    async def get(self, user_id: UUID) -> UserDomain:
+    async def get_by_id(self, user_id: UUID) -> UserDomain:
         """
         Retrieve a user by ID.
 
