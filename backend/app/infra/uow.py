@@ -1,29 +1,32 @@
-from sqlalchemy.ext.asyncio import AsyncSession, async_sessionmaker
-from typing import Optional
+from typing import Callable, TypeVar
+from sqlmodel.ext.asyncio.session import AsyncSession
 
 
-class UnitOfWork:
-    def __init__(self, session_factory: async_sessionmaker[AsyncSession]):
+RepoFactory = Callable[[AsyncSession], object]
+
+
+class SqlAlchemyUnitOfWork:
+    def __init__(
+        self,
+        session_factory: Callable[[], AsyncSession],
+        repo_factories: dict[str, RepoFactory],
+    ):
         self._session_factory = session_factory
-        self._session: Optional[AsyncSession] = None
-
-    @property
-    def session(self) -> AsyncSession:
-        assert self._session is not None, "Session accessed outside UoW context"
-        return self._session
+        self._repo_factories = repo_factories
 
     async def __aenter__(self):
-        self._session = self._session_factory()
+        self.session = self._session_factory()
+        for name, factory in self._repo_factories.items():
+            setattr(self, name, factory(self.session))
+
         return self
 
     async def __aexit__(self, exc_type, exc, tb):
-        assert self._session is not None
-        if exc_type:
-            await self._session.rollback()
+        if exc:
+            await self.rollback()
         else:
-            await self._session.commit()
-        await self._session.close()
-        self._session = None
+            await self.commit()
+        await self.session.close()
 
     async def commit(self):
         await self.session.commit()
