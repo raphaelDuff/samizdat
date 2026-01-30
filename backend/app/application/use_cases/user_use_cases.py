@@ -1,14 +1,18 @@
 from dataclasses import dataclass
 
 from app.application.common.result import Error, Result
-from app.application.dtos.user_dtos import CreateUserRequestModel, UserResponseModel
+from app.application.dtos.user_dtos import (
+    CreateUserRequestModel,
+    UsersListResponseModel,
+    UserResponseModel,
+)
 from app.domain.entities.user import UserDomain
 from uuid import uuid4
 from application.uow import UnitOfWork
 
 
 @dataclass(frozen=True)
-class CreatreUserCase:
+class CreateUserUseCase:
     """
     Use case for registering a new user.
     It orchestrates persistence (Repository) and business rules (Domain Entity)
@@ -37,3 +41,15 @@ class CreatreUserCase:
 
             await self.uow.users.save(new_user)
             return Result.sucess(UserResponseModel.from_entity(new_user))
+
+
+@dataclass(frozen=True)
+class GetUsersUserCase:
+    """User case to get all users"""
+
+    uow: UnitOfWork
+
+    # TODO: Create filter / pagination request models
+    async def execute(self) -> Result:
+        users = self.uow.users.get_all()
+        return Result.sucess(UsersListResponseModel)
