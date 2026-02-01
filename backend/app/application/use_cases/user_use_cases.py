@@ -30,10 +30,11 @@ class CreateUserUseCase:
                     )
                 )
 
+            # TODO: Hash password before creating entity
             new_user = UserDomain(
                 name=request_model.name,
                 email=request_model.email,
-                password_hash=request_model.password_hash,
+                password_hash=request_model.password,
                 birth_date=request_model.birth_date,
             )
 

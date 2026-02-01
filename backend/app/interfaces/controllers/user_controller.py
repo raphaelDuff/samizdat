@@ -18,16 +18,15 @@ class UserController:
         self,
         name: str,
         email: str,
-        password_hash: str,
-        brith_date: date,
-        role: str,
+        password: str,
+        birth_date: date,
     ) -> OperationResult[UserViewModel]:
         try:
             request = CreateUserRequestModel(
                 name=name,
                 email=email,
-                password_hash=password_hash,
-                birth_date=brith_date,
+                password=password,
+                birth_date=birth_date,
             )
             result = await self.create_use_case.execute(request)
             if result.is_success:

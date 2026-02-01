@@ -1,7 +1,9 @@
+from typing import Optional
+
 from app.interfaces.presenters.base import UserPresenter
 from app.application.dtos.user_dtos import UserResponseModel
 from app.interfaces.view_models.user_vm import UserViewModel
-from datetime import date
+from app.interfaces.view_models.base import ErrorViewModel
 
 
 class WebUserPresenter(UserPresenter):
@@ -16,3 +18,9 @@ class WebUserPresenter(UserPresenter):
             birth_date=self.format_birth_date(response_model.birth_date),
             role=response_model.role,
         )
+
+    def present_error(
+        self, error_msg: str, code: Optional[str] = None
+    ) -> ErrorViewModel:
+        """Format error for web response."""
+        return ErrorViewModel(message=error_msg, code=code)

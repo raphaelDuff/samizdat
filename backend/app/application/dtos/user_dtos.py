@@ -8,7 +8,7 @@ from pydantic import BaseModel, EmailStr, Field
 class CreateUserRequestModel(BaseModel):
     name: str = Field(min_length=4, max_length=255)
     email: EmailStr
-    password_hash: str
+    password: str
     birth_date: date
 
 
