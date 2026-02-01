@@ -31,11 +31,9 @@ class CreateUserUseCase:
                 )
 
             new_user = UserDomain(
-                id=uuid4(),
                 name=request_model.name,
                 email=request_model.email,
                 password_hash=request_model.password_hash,
-                role=request_model.role,
                 birth_date=request_model.birth_date,
             )
 

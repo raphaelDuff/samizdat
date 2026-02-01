@@ -1,6 +1,4 @@
 from dataclasses import dataclass
-from datetime import date
-from typing import Optional
 
 
 @dataclass(frozen=True)
@@ -10,6 +8,5 @@ class UserViewModel:
     id: str
     name: str
     email: str
-    brith_date: date
+    birth_date: str
     role: str
-    is_active: bool

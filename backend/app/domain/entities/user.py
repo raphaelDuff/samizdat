@@ -10,9 +10,9 @@ class UserDomain(Entity):
     name: str
     email: str
     password_hash: str
-    role: str
     birth_date: date
-    is_active: bool = False
+    role: str = "user"
+    is_active: bool = True
     created_at: datetime = datetime.now(timezone.utc)
     id: UUID = field(default_factory=uuid4)
     updated_at: datetime | None = field(default=None)

@@ -10,15 +10,13 @@ class CreateUserRequestModel(BaseModel):
     email: EmailStr
     password_hash: str
     birth_date: date
-    role: str = Field(default="user")
-    is_active: bool = Field(default=True)
 
 
 class UserResponseModel(BaseModel):
     id: str
     name: str = Field(min_length=4, max_length=255)
     email: EmailStr
-    birth_date: date | None
+    birth_date: date
     role: str = Field(default="user")
     created_at: datetime
     updated_at: datetime | None = Field(default=None)
