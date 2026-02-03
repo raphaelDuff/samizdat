@@ -1,6 +1,6 @@
 from app.application.repositories.user_repository import UserRepository
 from app.infra.config import Config
-from infra.persistence.postgresql_repository import UserPostgreRepository
+from app.infra.persistence.postgresql_repository import UserPostgreRepository
 from typing import Callable
 from sqlmodel.ext.asyncio.session import AsyncSession
 

@@ -4,18 +4,13 @@ from fastapi import APIRouter, Depends, HTTPException, status
 
 from app.application.common.result import ErrorCode
 from app.application.dtos.user_dtos import CreateUserRequestModel
+from app.infra.web.dependencies import get_user_controller
 from app.infra.web.error_mapping import get_http_status
 from app.interfaces.controllers.user_controller import UserController
 from app.interfaces.view_models.base import ErrorViewModel
 from app.interfaces.view_models.user_vm import UserViewModel
 
 router = APIRouter(prefix="/users", tags=["users"])
-
-
-# TODO: Replace with actual container dependency
-async def get_user_controller() -> UserController:
-    """Dependency to get UserController. Replace with container injection."""
-    raise NotImplementedError("Container not configured yet")
 
 
 @router.post(

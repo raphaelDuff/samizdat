@@ -8,7 +8,7 @@ from app.application.dtos.user_dtos import (
 )
 from app.domain.entities.user import UserDomain
 from uuid import uuid4
-from application.uow import UnitOfWork
+from app.application.uow import UnitOfWork
 
 
 @dataclass(frozen=True)
