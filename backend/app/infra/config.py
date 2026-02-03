@@ -15,7 +15,9 @@ class Config:
 
     # DEFAULT values
     DEFAULT_REPOSITORY_TYPE: RepositoryType = RepositoryType.POSTGRESQL
-    DEFAULT_DATABASE_URL: str = "postgresql+asyncpg://user:password@localhost:5432/samizdat"
+    DEFAULT_DATABASE_URL: str = (
+        "postgresql+asyncpg://user:password@localhost:5432/samizdat"
+    )
 
     _engine: AsyncEngine | None = None
 

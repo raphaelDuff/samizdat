@@ -1,8 +1,7 @@
 from dataclasses import dataclass, field
 from datetime import date, datetime, timezone
-from uuid import UUID, uuid4
 
-from domain.entities.entity import Entity
+from app.domain.entities.entity import Entity
 
 
 @dataclass
@@ -13,8 +12,7 @@ class UserDomain(Entity):
     birth_date: date
     role: str = "user"
     is_active: bool = True
-    created_at: datetime = datetime.now(timezone.utc)
-    id: UUID = field(default_factory=uuid4)
+    created_at: datetime = field(default_factory=lambda: datetime.now(timezone.utc))
     updated_at: datetime | None = field(default=None)
 
     @property
