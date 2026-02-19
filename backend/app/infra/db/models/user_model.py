@@ -1,8 +1,9 @@
-from typing import List, Optional
+from typing import Optional
 from uuid import UUID, uuid4
 from datetime import datetime, date, timezone
 
-from sqlmodel import SQLModel, Field, Column, JSON
+from sqlalchemy import DateTime
+from sqlmodel import SQLModel, Field, Column
 
 
 class UserSQLModel(SQLModel, table=True):
@@ -19,6 +20,12 @@ class UserSQLModel(SQLModel, table=True):
 
     is_active: bool = Field(default=False)
 
-    created_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
+    created_at: datetime = Field(
+        default_factory=lambda: datetime.now(timezone.utc),
+        sa_column=Column(DateTime(timezone=True), nullable=False),
+    )
 
-    updated_at: Optional[datetime] = Field(default=None)
+    updated_at: Optional[datetime] = Field(
+        default=None,
+        sa_column=Column(DateTime(timezone=True), nullable=True),
+    )
