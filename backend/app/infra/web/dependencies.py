@@ -11,7 +11,7 @@ from typing import Callable
 from fastapi import Depends, Request
 
 from app.application.uow import UnitOfWork
-from app.application.use_cases.user_use_cases import CreateUserUseCase, GetUsersUserCase
+from app.application.use_cases.user_use_cases import CreateUserUseCase, GetUsersUseCase
 from app.infra.configuration.container import Application
 from app.interfaces.controllers.user_controller import UserController
 from app.interfaces.presenters.base import UserPresenter
@@ -55,9 +55,9 @@ def get_create_user_use_case(
 
 def get_get_users_use_case(
     uow_factory: Callable[[], UnitOfWork] = Depends(get_uow_factory),
-) -> GetUsersUserCase:
-    """Create a GetUsersUserCase with a fresh UoW."""
-    return GetUsersUserCase(uow=uow_factory())
+) -> GetUsersUseCase:
+    """Create a GetUsersUseCase with a fresh UoW."""
+    return GetUsersUseCase(uow=uow_factory())
 
 
 def get_user_controller(

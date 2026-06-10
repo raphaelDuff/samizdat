@@ -57,7 +57,7 @@ The innermost layer. Contains pure business logic with no framework dependencies
 
 Orchestrates domain objects to fulfill use cases. No knowledge of HTTP, databases, or frameworks.
 
-- **Use Cases** — Single-responsibility handlers for business operations (e.g., `CreateUserUseCase`, `GetUsersUserCase`).
+- **Use Cases** — Single-responsibility handlers for business operations (e.g., `CreateUserUseCase`, `GetUsersUseCase`).
 - **DTOs** — Data Transfer Objects for input/output across layer boundaries.
 - **Repository Interfaces** — Abstract contracts that the infrastructure layer must fulfill.
 - **Unit of Work** — Protocol that enforces transaction boundaries and repository access.

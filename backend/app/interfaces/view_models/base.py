@@ -7,7 +7,7 @@ T = TypeVar("T")
 @dataclass(frozen=True)
 class ErrorViewModel:
     """
-    Represents an aerror with an optional error code.
+    Represents an error with an optional error code.
 
     Attributes:
         message: A human-readable error message
@@ -60,7 +60,7 @@ class OperationResult(Generic[T]):
 
     @property
     def is_success(self) -> bool:
-        """Indicates weither the operation was successful."""
+        """Indicates whether the operation was successful."""
         return self._success is not None
 
     @property
