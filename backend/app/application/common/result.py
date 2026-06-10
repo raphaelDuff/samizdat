@@ -55,7 +55,7 @@ class Error:
 @dataclass(frozen=True)
 class Result(Generic[T]):
     """
-    Represents the outcome of a use case execution as an Either Typer
+    Represents the outcome of a use case execution as an Either Type
 
     This class encapsulates the result of an operation, which can either be a success
     containing a value of type T, or a failure containing an Error. It enforces that
@@ -102,7 +102,7 @@ class Result(Generic[T]):
         return self._error
 
     @classmethod
-    def sucess(cls, value: T) -> "Result[T]":
+    def success(cls, value: T) -> "Result[T]":
         """Create a successful result with the given value"""
         return cls(_value=value)
 

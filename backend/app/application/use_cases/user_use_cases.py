@@ -39,16 +39,21 @@ class CreateUserUseCase:
             )
 
             await self.uow.users.save(new_user)
-            return Result.sucess(UserResponseModel.from_entity(new_user))
+            return Result.success(UserResponseModel.from_entity(new_user))
 
 
 @dataclass(frozen=True)
-class GetUsersUserCase:
+class GetUsersUseCase:
     """User case to get all users"""
 
     uow: UnitOfWork
 
     # TODO: Create filter / pagination request models
     async def execute(self) -> Result:
-        users = self.uow.users.get_all()
-        return Result.sucess(UsersListResponseModel)
+        async with self.uow:
+            users = await self.uow.users.get_all()
+            return Result.success(
+                UsersListResponseModel(
+                    users=[UserResponseModel.from_entity(user) for user in users]
+                )
+            )

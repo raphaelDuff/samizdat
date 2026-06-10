@@ -36,4 +36,4 @@ class UserResponseModel(BaseModel):
 
 
 class UsersListResponseModel(BaseModel):
-    list[UserResponseModel]
+    users: list[UserResponseModel]
