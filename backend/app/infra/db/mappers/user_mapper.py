@@ -1,21 +1,22 @@
 # infra/db/mappers/user_mapper.py
-from app.domain.entities.user import UserDomain
+from app.domain.entities.user import UserDomain, UserRole
 from app.infra.db.models.user_model import UserSQLModel
 
 
 class UserMapper:
     @staticmethod
     def to_domain(model: UserSQLModel) -> UserDomain:
-        return UserDomain(
-            id=model.id,
+        user = UserDomain(
             name=model.name,
             email=model.email,
             password_hash=model.password_hash,
-            role=model.role,
+            role=UserRole(model.role),
             birth_date=model.birth_date,
             is_active=model.is_active,
             created_at=model.created_at,
         )
+        user.id = model.id
+        return user
 
     @staticmethod
     def to_model(entity: UserDomain, model: UserSQLModel | None = None) -> UserSQLModel:

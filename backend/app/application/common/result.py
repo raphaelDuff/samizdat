@@ -51,6 +51,14 @@ class Error:
         """Create a BUSINESS_RULE_VIOLATION error with the specified message."""
         return cls(code=ErrorCode.BUSINESS_RULE_VIOLATION, message=message)
 
+    @classmethod
+    def unauthorized(cls, message: str) -> Self:
+        return cls(code=ErrorCode.UNAUTHORIZED, message=message)
+
+    @classmethod
+    def conflict(cls, message: str) -> Self:
+        return cls(code=ErrorCode.CONFLICT, message=message)
+
 
 @dataclass(frozen=True)
 class Result(Generic[T]):

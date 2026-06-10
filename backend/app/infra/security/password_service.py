@@ -1,7 +1,9 @@
 from pwdlib import PasswordHash
 
+from app.domain.services.password_hasher import PasswordHasher
 
-class PasswordService:
+
+class PasswordService(PasswordHasher):
 
     password_hash = PasswordHash.recommended()
     DUMMY_HASH = password_hash.hash("dummyverydummypassword")
